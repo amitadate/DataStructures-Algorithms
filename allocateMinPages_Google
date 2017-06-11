@@ -1,0 +1,40 @@
+import sys
+#recurse by dividing the array based on a for loop
+def find_minMax(arr,n,m,start,students):
+    if(students==1):
+        return sum(arr[start:n])
+    sum1=0
+    list_minPages=sys.maxsize
+    list_maxPages=0
+    for i in range(start,n-(m-1)):
+        sum1=sum1+arr[i]
+        sum2=find_minMax(arr,n,m,i+1,students-1)
+        sum_max=max(sum1,sum2)
+        if(students==m):
+            if(sum_max<list_minPages):
+                list_minPages=sum_max
+        else:
+            if(sum_max>list_maxPages):
+                list_maxPages=sum_max
+
+    if(students==m):
+        return list_minPages
+    else:
+        return list_maxPages
+
+
+
+#input
+if __name__=='__main__':
+    t=int(input())
+    while(t!=0):
+        n=int(input())
+        arr=list(map(int,input().strip().split()))
+        m=int(input())
+        students=m
+        if(m>n):
+            print('-1')
+            break
+        minMaxPages=find_minMax(arr,n,m,0,students)
+        print(minMaxPages)
+        t=t-1
